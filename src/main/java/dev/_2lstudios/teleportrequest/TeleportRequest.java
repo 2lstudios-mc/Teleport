@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import dev._2lstudios.teleportrequest.commands.TPACommand;
 import dev._2lstudios.teleportrequest.commands.TPAccept;
 import dev._2lstudios.teleportrequest.commands.TPDeny;
+import dev._2lstudios.teleportrequest.config.MessagesConfig;
 import dev._2lstudios.teleportrequest.listeners.EntityDamageListener;
 import dev._2lstudios.teleportrequest.listeners.PlayerMoveListener;
 import dev._2lstudios.teleportrequest.listeners.PlayerQuitListener;
@@ -24,13 +25,13 @@ public class TeleportRequest extends JavaPlugin {
 
         Server server = getServer();
         PluginManager pluginManager = server.getPluginManager();
-        // TODO: Use config for messages
         Configuration config = getConfig();
-        Teleports teleports = new Teleports();
+        MessagesConfig messagesConfig = new MessagesConfig(config);
+        Teleports teleports = new Teleports(messagesConfig);
 
-        getCommand("tpa").setExecutor(new TPACommand(server, teleports));
-        getCommand("tpaccept").setExecutor(new TPAccept(server, teleports));
-        getCommand("tpdeny").setExecutor(new TPDeny(server, teleports));
+        getCommand("tpa").setExecutor(new TPACommand(server, messagesConfig, teleports));
+        getCommand("tpaccept").setExecutor(new TPAccept(server, messagesConfig, teleports));
+        getCommand("tpdeny").setExecutor(new TPDeny(server, messagesConfig, teleports));
 
         pluginManager.registerEvents(new EntityDamageListener(teleports), this);
         pluginManager.registerEvents(new PlayerMoveListener(teleports), this);

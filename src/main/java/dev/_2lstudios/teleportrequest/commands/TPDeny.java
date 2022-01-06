@@ -6,14 +6,18 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import dev._2lstudios.teleportrequest.config.MessagesConfig;
+import dev._2lstudios.teleportrequest.config.Placeholder;
 import dev._2lstudios.teleportrequest.teleport.Teleports;
 
 public class TPDeny implements CommandExecutor {
     private Server server;
+    private MessagesConfig messagesConfig;
     private Teleports teleports;
 
-    public TPDeny(Server server, Teleports teleports) {
+    public TPDeny(Server server, MessagesConfig messagesConfig, Teleports teleports) {
         this.server = server;
+        this.messagesConfig = messagesConfig;
         this.teleports = teleports;
     }
 
@@ -28,13 +32,17 @@ public class TPDeny implements CommandExecutor {
                 if (targetPlayer != null && targetPlayer.isOnline()) {
                     teleports.denyRequest(targetPlayer, senderPlayer);
                 } else {
-                    sender.sendMessage("Target is not online");
+                    Placeholder targetPlaceholder = new Placeholder("%target%", targetPlayer.getName());
+                    Placeholder senderPlaceholder = new Placeholder("%sender%", senderPlayer.getName());
+                    Placeholder[] placeholders = { targetPlaceholder, senderPlaceholder };
+
+                    sender.sendMessage(messagesConfig.getMessage("deny.offline", placeholders));
                 }
             } else {
-                sender.sendMessage("/tpdeny <target>");
+                sender.sendMessage(messagesConfig.getMessage("deny.usage"));
             }
         } else {
-            sender.sendMessage("Command not allowed from console");
+            sender.sendMessage(messagesConfig.getMessage("console"));
         }
 
         return true;

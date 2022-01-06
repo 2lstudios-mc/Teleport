@@ -3,8 +3,6 @@ package dev._2lstudios.teleportrequest.teleport;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.bukkit.entity.Player;
-
 public class TeleportTask implements Runnable {
     private Teleports teleports;
 

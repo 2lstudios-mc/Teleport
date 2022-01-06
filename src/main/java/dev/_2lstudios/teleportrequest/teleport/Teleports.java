@@ -6,15 +6,19 @@ import java.util.UUID;
 
 import org.bukkit.entity.Player;
 
+import dev._2lstudios.teleportrequest.config.MessagesConfig;
+import dev._2lstudios.teleportrequest.config.Placeholder;
 import dev._2lstudios.teleportrequest.utils.BukkitUtils;
 
 public class Teleports {
     private Collection<PendingTeleport> pendingTeleports;
     private TeleportPlayers teleportPlayers;
+    private MessagesConfig messagesConfig;
 
-    public Teleports() {
+    public Teleports(MessagesConfig messagesConfig) {
         this.pendingTeleports = new HashSet<>();
         this.teleportPlayers = new TeleportPlayers();
+        this.messagesConfig = messagesConfig;
     }
 
     public Collection<PendingTeleport> getPendingTeleports() {
@@ -23,7 +27,7 @@ public class Teleports {
 
     public void acceptRequest(Player sender, Player target) {
         if (sender == target) {
-            sender.sendMessage("Can't accept own request");
+            sender.sendMessage(messagesConfig.getMessage("accept.self"));
             return;
         }
 
@@ -33,7 +37,7 @@ public class Teleports {
         TeleportPlayer targetPlayer = teleportPlayers.get(targetUUID);
 
         if (!targetPlayer.receivedRequest(senderUUID)) {
-            target.sendMessage(sender.getName() + " hasn't sent you a teleport request");
+            target.sendMessage(messagesConfig.getMessage("accept.unsent"));
             return;
         }
 
@@ -44,13 +48,18 @@ public class Teleports {
         senderPlayer.setPendingTeleport(pendingTeleport);
         pendingTeleports.add(pendingTeleport);
 
-        sender.sendMessage(target.getName() + " has accepted your teleport request\nTeleporting to " + target.getName() + " in " + seconds + " seconds");
-        target.sendMessage("You accepted " + sender.getName() + " teleport request\nTeleporting " + sender.getName() + " to you in " + seconds + " seconds");
+        Placeholder targetPlaceholder = new Placeholder("%target%", target.getName());
+        Placeholder senderPlaceholder = new Placeholder("%sender%", sender.getName());
+        Placeholder secondsPlaceholder = new Placeholder("%seconds%", String.valueOf(seconds));
+        Placeholder[] placeholders = { targetPlaceholder, senderPlaceholder, secondsPlaceholder};
+
+        sender.sendMessage(messagesConfig.getMessage("accept.received", placeholders));
+        target.sendMessage(messagesConfig.getMessage("accept.sent", placeholders));
     }
 
     public void sendRequest(Player sender, Player target) {
         if (sender == target) {
-            sender.sendMessage("Can't send request to self");
+            sender.sendMessage(messagesConfig.getMessage("send.self"));
             return;
         }
 
@@ -58,29 +67,42 @@ public class Teleports {
         TeleportPlayer targetPlayer = teleportPlayers.get(target);
 
         if (targetPlayer.receivedRequest(senderUUID)) {
-            sender.sendMessage("Already sent request to " + target.getName());
+            sender.sendMessage(messagesConfig.getMessage("send.already"));
             return;
         }
 
         targetPlayer.receiveRequest(senderUUID);
 
-        sender.sendMessage("You sent a teleport request to " + target.getName());
-        target.sendMessage(sender.getName() + " sent you a teleport request");
+        Placeholder targetPlaceholder = new Placeholder("%target%", target.getName());
+        Placeholder senderPlaceholder = new Placeholder("%sender%", sender.getName());
+        Placeholder[] placeholders = { targetPlaceholder, senderPlaceholder };
+
+        sender.sendMessage(messagesConfig.getMessage("send.sent", placeholders));
+        target.sendMessage(messagesConfig.getMessage("send.received", placeholders));
     }
 
     public void denyRequest(Player sender, Player target) {
         if (sender == target) {
-            sender.sendMessage("Can't deny own request");
+            sender.sendMessage(messagesConfig.getMessage("deny.self"));
             return;
         }
 
         UUID senderUUID = sender.getUniqueId();
         TeleportPlayer targetPlayer = teleportPlayers.get(target);
 
+        if (!targetPlayer.receivedRequest(senderUUID)) {
+            target.sendMessage(messagesConfig.getMessage("deny.unsent"));
+            return;
+        }
+
         targetPlayer.unreceiveRequest(senderUUID);
 
-        sender.sendMessage(target.getName() + " has denied your teleport request");
-        target.sendMessage("You denied " + sender.getName() + " teleport request");
+        Placeholder targetPlaceholder = new Placeholder("%target%", target.getName());
+        Placeholder senderPlaceholder = new Placeholder("%sender%", sender.getName());
+        Placeholder[] placeholders = { targetPlaceholder, senderPlaceholder };
+
+        sender.sendMessage(messagesConfig.getMessage("deny.received", placeholders));
+        target.sendMessage(messagesConfig.getMessage("deny.sent", placeholders));
     }
 
     public void clear(Player player) {
@@ -93,10 +115,16 @@ public class Teleports {
 
         if (pendingTeleport != null) {
             Player target = pendingTeleport.getTarget();
+            Player sender = pendingTeleport.getSender();
 
             teleportPlayer.setPendingTeleport(null);
             pendingTeleports.remove(pendingTeleport);
-            player.sendMessage("Teleport to " + target.getName() + " cancelled because of movement");
+
+            Placeholder targetPlaceholder = new Placeholder("%target%", target.getName());
+            Placeholder senderPlaceholder = new Placeholder("%sender%", sender.getName());
+            Placeholder[] placeholders = { targetPlaceholder, senderPlaceholder };
+
+            player.sendMessage(messagesConfig.getMessage("movement", placeholders));
         }
     }
 
@@ -108,17 +136,22 @@ public class Teleports {
             return;
         }
 
+        Placeholder targetPlaceholder = new Placeholder("%target%", target.getName());
+        Placeholder senderPlaceholder = new Placeholder("%sender%", sender.getName());
+        Placeholder[] placeholders = { targetPlaceholder, senderPlaceholder };
+
         if (!target.isOnline()) {
-            sender.sendMessage("Target player is not online");
+            sender.sendMessage(messagesConfig.getMessage("offline", placeholders));
         }
 
         if (!target.isValid()) {
-            sender.sendMessage("Target player is dead");
+            sender.sendMessage(messagesConfig.getMessage("dead", placeholders));
         }
 
-        sender.sendMessage("Teleporting to " + target.getName());
-        target.sendMessage("A player has teleported to you");
         sender.teleport(target);
         teleportPlayers.get(sender).setPendingTeleport(null);
+
+        sender.sendMessage(messagesConfig.getMessage("teleport.sender", placeholders));
+        target.sendMessage(messagesConfig.getMessage("teleport.target", placeholders));
     }
 }

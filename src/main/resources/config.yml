@@ -1,12 +1,30 @@
 messages:
-  teleported: "Teleported to %target%"
-  request:
-    received: "%sender% is asking to teleport to you\nUse /tpaccept to accept\nUse /tpdeny to deny"
-    already: "You already sent a request to %target%"
-    sent: "Teleport request sent to %target%"
-    accept:
-      target: "You accepted %sender% teleport request"
-      sender: "%target% has accepted your teleport request"
-    deny:
-      target: "You denied %sender% teleport request"
-      sender: "%target% has denied your teleport request"
+  console: "&6This command cannot be used from the console"
+  dead: "&6Teleport to&c %target%&6 cancelled because he died"
+  movement: "&6Teleport to&c %target%&6 cancelled because of movement"
+  offline: "&6Teleport to&c %target%&6 cancelled because he disconnected"
+  dead: "&6Teleport to&c %target%&6 cancelled because he died"
+  teleport:
+    sender: "&6Teleported to &c%target%"
+    target: "&c%sender%&6 teleported to you"
+  send:
+    usage: "&cUsage: /tpa <player>"
+    offline: "&c%target%%&6 is not online"
+    self: "&6Can't send request to yourself"
+    already: "&6You already sent a request to &c%target%"
+    received: "&c%sender%&6 wants to teleport to you\n&6To teleport, type &c/tpaccept\n&6To deny, type &c/tpdeny"
+    sent: "&6Teleport request sent to &c%target%"
+  accept:
+    usage: "&cUsage: /tpaccept <player>"
+    offline: "&c%target%%&6 is not online"
+    self: "&6Can't accept own request"
+    unsent: "&c%sender%&6 hasn't sent you a teleport request"
+    received: "&c%target% &6accepted your teleport request\n&6Teleporting to&c %target%&6 on&c %seconds%&6 seconds"
+    sent: "&6You accepted&c %target%&6 teleport request\n&6Teleporting&c %target%&6 on&c %seconds%&6 seconds"
+  deny:
+    usage: "&cUsage: /tpdeny <player>"
+    offline: "&c%target%%&6 is not online"
+    self: "&6Can't deny own request"
+    unsent: "&c%sender%&6 hasn't sent you a teleport request"
+    received: "&c%target% &6denied your teleport request"
+    sent: "&6You denied&c %target%&6 teleport request"
