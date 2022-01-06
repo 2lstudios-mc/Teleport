@@ -1,6 +1,5 @@
 messages:
   console: "&6This command cannot be used from the console"
-  dead: "&6Teleport to&c %target%&6 cancelled because he died"
   movement: "&6Teleport to&c %target%&6 cancelled because of movement"
   offline: "&6Teleport to&c %target%&6 cancelled because he disconnected"
   dead: "&6Teleport to&c %target%&6 cancelled because he died"
