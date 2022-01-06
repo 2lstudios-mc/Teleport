@@ -5,6 +5,9 @@ main: ${mainClass}
 version: ${version}
 url: ${url}
 commands:
-  example:
-    aliases: ["ex"]
-    description: "This is an example plugin."
+  tpa:
+    description: "Request teleport to other player"
+  tpaccept:
+    description: "Accept other player teleport request"
+  tpdeny:
+    description: "Deny other player teleport request"

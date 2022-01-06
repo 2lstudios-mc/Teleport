@@ -1,6 +1,12 @@
 messages:
-  from-command: "&eHello world from Command."
-  from-listener: "&aHello world from Listener."
-  from-task: "&dHello world from Task."
-
-task-repeat-every: 3
+  teleported: "Teleported to %target%"
+  request:
+    received: "%sender% is asking to teleport to you\nUse /tpaccept to accept\nUse /tpdeny to deny"
+    already: "You already sent a request to %target%"
+    sent: "Teleport request sent to %target%"
+    accept:
+      target: "You accepted %sender% teleport request"
+      sender: "%target% has accepted your teleport request"
+    deny:
+      target: "You denied %sender% teleport request"
+      sender: "%target% has denied your teleport request"
