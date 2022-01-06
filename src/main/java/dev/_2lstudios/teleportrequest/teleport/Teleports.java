@@ -65,17 +65,16 @@ public class Teleports {
 
         UUID senderUUID = sender.getUniqueId();
         TeleportPlayer targetPlayer = teleportPlayers.get(target);
+        Placeholder targetPlaceholder = new Placeholder("%target%", target.getName());
+        Placeholder senderPlaceholder = new Placeholder("%sender%", sender.getName());
+        Placeholder[] placeholders = { targetPlaceholder, senderPlaceholder };
 
         if (targetPlayer.receivedRequest(senderUUID)) {
-            sender.sendMessage(messagesConfig.getMessage("send.already"));
+            sender.sendMessage(messagesConfig.getMessage("send.already", placeholders));
             return;
         }
 
         targetPlayer.receiveRequest(senderUUID);
-
-        Placeholder targetPlaceholder = new Placeholder("%target%", target.getName());
-        Placeholder senderPlaceholder = new Placeholder("%sender%", sender.getName());
-        Placeholder[] placeholders = { targetPlaceholder, senderPlaceholder };
 
         sender.sendMessage(messagesConfig.getMessage("send.sent", placeholders));
         target.sendMessage(messagesConfig.getMessage("send.received", placeholders));
