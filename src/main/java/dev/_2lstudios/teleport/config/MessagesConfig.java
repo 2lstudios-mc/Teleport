@@ -1,4 +1,4 @@
-package dev._2lstudios.teleportrequest.config;
+package dev._2lstudios.teleport.config;
 
 import java.util.HashMap;
 import java.util.Map;

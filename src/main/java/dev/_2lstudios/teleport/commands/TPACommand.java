@@ -1,4 +1,4 @@
-package dev._2lstudios.teleportrequest.commands;
+package dev._2lstudios.teleport.commands;
 
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -6,16 +6,16 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import dev._2lstudios.teleportrequest.config.MessagesConfig;
-import dev._2lstudios.teleportrequest.config.Placeholder;
-import dev._2lstudios.teleportrequest.teleport.Teleports;
+import dev._2lstudios.teleport.config.MessagesConfig;
+import dev._2lstudios.teleport.config.Placeholder;
+import dev._2lstudios.teleport.teleport.Teleports;
 
-public class TPAccept implements CommandExecutor {
+public class TPACommand implements CommandExecutor {
     private Server server;
     private MessagesConfig messagesConfig;
     private Teleports teleports;
 
-    public TPAccept(Server server, MessagesConfig messagesConfig, Teleports teleports) {
+    public TPACommand(Server server, MessagesConfig messagesConfig, Teleports teleports) {
         this.server = server;
         this.messagesConfig = messagesConfig;
         this.teleports = teleports;
@@ -30,16 +30,16 @@ public class TPAccept implements CommandExecutor {
                 Player targetPlayer = server.getPlayer(targetName);
 
                 if (targetPlayer != null && targetPlayer.isOnline()) {
-                    teleports.acceptRequest(targetPlayer, senderPlayer);
+                    teleports.sendRequest(senderPlayer, targetPlayer);
                 } else {
-                    Placeholder targetPlaceholder = new Placeholder("%target%", targetPlayer.getName());
+                    Placeholder targetPlaceholder = new Placeholder("%target%", targetName);
                     Placeholder senderPlaceholder = new Placeholder("%sender%", senderPlayer.getName());
                     Placeholder[] placeholders = { targetPlaceholder, senderPlaceholder };
 
-                    sender.sendMessage(messagesConfig.getMessage("accept.offline", placeholders));
+                    sender.sendMessage(messagesConfig.getMessage("teleport.offline", placeholders));
                 }
             } else {
-                sender.sendMessage(messagesConfig.getMessage("accept.usage"));
+                sender.sendMessage(messagesConfig.getMessage("send.usage"));
             }
         } else {
             sender.sendMessage(messagesConfig.getMessage("console"));

@@ -12,7 +12,7 @@
 
     <properties>
         <author>2LStudios</author>
-        <mainClass>dev._2lstudios.teleportrequest.Teleport</mainClass>
+        <mainClass>dev._2lstudios.teleport.Teleport</mainClass>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

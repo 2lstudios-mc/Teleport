@@ -1,4 +1,4 @@
-package dev._2lstudios.teleportrequest.utils;
+package dev._2lstudios.teleport.utils;
 
 import org.bukkit.entity.Player;
 

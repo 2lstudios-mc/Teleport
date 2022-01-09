@@ -1,4 +1,4 @@
-package dev._2lstudios.teleportrequest.config;
+package dev._2lstudios.teleport.config;
 
 public class Placeholder {
     private String key;

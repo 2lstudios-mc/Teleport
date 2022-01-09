@@ -1,4 +1,4 @@
-package dev._2lstudios.teleportrequest.teleport;
+package dev._2lstudios.teleport.teleport;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -6,9 +6,9 @@ import java.util.UUID;
 
 import org.bukkit.entity.Player;
 
-import dev._2lstudios.teleportrequest.config.MessagesConfig;
-import dev._2lstudios.teleportrequest.config.Placeholder;
-import dev._2lstudios.teleportrequest.utils.BukkitUtils;
+import dev._2lstudios.teleport.config.MessagesConfig;
+import dev._2lstudios.teleport.config.Placeholder;
+import dev._2lstudios.teleport.utils.BukkitUtils;
 
 public class Teleports {
     private Collection<PendingTeleport> pendingTeleports;
@@ -35,9 +35,13 @@ public class Teleports {
         UUID targetUUID = target.getUniqueId();
         TeleportPlayer senderPlayer = teleportPlayers.get(senderUUID);
         TeleportPlayer targetPlayer = teleportPlayers.get(targetUUID);
+        Placeholder targetPlaceholder = new Placeholder("%target%", target.getName());
+        Placeholder senderPlaceholder = new Placeholder("%sender%", sender.getName());
 
         if (!targetPlayer.receivedRequest(senderUUID)) {
-            target.sendMessage(messagesConfig.getMessage("accept.unsent"));
+            Placeholder[] placeholders = { targetPlaceholder, senderPlaceholder};
+
+            target.sendMessage(messagesConfig.getMessage("accept.unsent", placeholders));
             return;
         }
 
@@ -48,8 +52,6 @@ public class Teleports {
         senderPlayer.setPendingTeleport(pendingTeleport);
         pendingTeleports.add(pendingTeleport);
 
-        Placeholder targetPlaceholder = new Placeholder("%target%", target.getName());
-        Placeholder senderPlaceholder = new Placeholder("%sender%", sender.getName());
         Placeholder secondsPlaceholder = new Placeholder("%seconds%", String.valueOf(seconds));
         Placeholder[] placeholders = { targetPlaceholder, senderPlaceholder, secondsPlaceholder};
 

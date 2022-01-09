@@ -1,4 +1,4 @@
-package dev._2lstudios.teleportrequest.commands;
+package dev._2lstudios.teleport.commands;
 
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -6,9 +6,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import dev._2lstudios.teleportrequest.config.MessagesConfig;
-import dev._2lstudios.teleportrequest.config.Placeholder;
-import dev._2lstudios.teleportrequest.teleport.Teleports;
+import dev._2lstudios.teleport.config.MessagesConfig;
+import dev._2lstudios.teleport.config.Placeholder;
+import dev._2lstudios.teleport.teleport.Teleports;
 
 public class TPDeny implements CommandExecutor {
     private Server server;
@@ -32,11 +32,11 @@ public class TPDeny implements CommandExecutor {
                 if (targetPlayer != null && targetPlayer.isOnline()) {
                     teleports.denyRequest(targetPlayer, senderPlayer);
                 } else {
-                    Placeholder targetPlaceholder = new Placeholder("%target%", targetPlayer.getName());
+                    Placeholder targetPlaceholder = new Placeholder("%target%", targetName);
                     Placeholder senderPlaceholder = new Placeholder("%sender%", senderPlayer.getName());
                     Placeholder[] placeholders = { targetPlaceholder, senderPlaceholder };
 
-                    sender.sendMessage(messagesConfig.getMessage("deny.offline", placeholders));
+                    sender.sendMessage(messagesConfig.getMessage("teleport.offline", placeholders));
                 }
             } else {
                 sender.sendMessage(messagesConfig.getMessage("deny.usage"));

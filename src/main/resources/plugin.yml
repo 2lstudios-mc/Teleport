@@ -5,6 +5,9 @@ main: ${mainClass}
 version: ${version}
 url: ${url}
 commands:
+  teleport:
+    aliases: [ tp ]
+    description: "Teleport to another player"
   tpa:
     description: "Request teleport to other player"
   tpaccept:

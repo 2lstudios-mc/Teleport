@@ -1,4 +1,4 @@
-package dev._2lstudios.teleportrequest.teleport;
+package dev._2lstudios.teleport.teleport;
 
 import java.util.Collection;
 import java.util.HashSet;
