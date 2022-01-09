@@ -2,17 +2,17 @@
     <modelVersion>4.0.0</modelVersion>
     
     <groupId>dev._2lstudios</groupId>
-    <artifactId>TeleportRequest</artifactId>
+    <artifactId>Teleport</artifactId>
     <packaging>jar</packaging>
 
-    <name>TeleportRequest</name>
+    <name>Teleport</name>
     <description>Send teleport requests to players</description>
     <version>0.0.1</version>
     <url>https://github.com/2lstudios-mc/teleport-request</url>
 
     <properties>
         <author>2LStudios</author>
-        <mainClass>dev._2lstudios.teleportrequest.TeleportRequest</mainClass>
+        <mainClass>dev._2lstudios.teleportrequest.Teleport</mainClass>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
