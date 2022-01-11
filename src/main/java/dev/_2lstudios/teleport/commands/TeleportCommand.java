@@ -20,7 +20,7 @@ public class TeleportCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.hasPermission("telepot.teleport")) {
+        if (sender.hasPermission("teleport.teleport")) {
             if (sender instanceof Player) {
                 if (args.length > 0) {
                     String playerName = args[0];
